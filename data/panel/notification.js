@@ -27,12 +27,12 @@ var notify = (function() {
     div.style.display = 'none';
   });
 
-  $('.menu-button > input').each((i) => {
+  $('.menu-button > input').each(function (i) {
     let el = $(this);
-    // el.keypress((e) => {
-    el.keydown((e) => {
+    el.keypress((e) => {
+    // el.keydown((e) => {
       const key = e.key;
-      alert('key ' + key);
+      // alert('key ' + key);
       if (key == "Enter") {
         el.parent().find('ul').addClass('visible');
       }
