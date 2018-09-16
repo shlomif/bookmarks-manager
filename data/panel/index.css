@@ -113,7 +113,8 @@ input:disabled {
 .menu-button li.separator {
   border-top: solid 1px #b7b7b7;
 }
-.menu-button:hover ul {
+.menu-button:hover ul,
+.menu-button ul.visible {
   transition-delay: .25s;
   visibility: visible;
   opacity: 1;

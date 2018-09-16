@@ -27,6 +27,17 @@ var notify = (function() {
     div.style.display = 'none';
   });
 
+  $('.menu-button > input').each((i) => {
+    let el = $(this);
+    // el.keypress((e) => {
+    el.keydown((e) => {
+      const key = e.key;
+      alert('key ' + key);
+      if (key == "Enter") {
+        el.parent().find('ul').addClass('visible');
+      }
+    });
+  });
   const ts = document.querySelector('#toolbar span');
   let id;
 
