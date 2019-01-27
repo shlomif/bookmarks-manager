@@ -177,6 +177,20 @@ tree.jstree({
   },
   'contextmenu': {
     'items': node => ({
+      'Move Bookmark': {
+        'label': 'Move Bookmark',
+        'action': () => {
+            // TODO : allow selecting a folder.
+            const parent = tree.jstree('get_node', getRoot());
+            tree.trigger('move_node.jstree', {
+                node,
+                parent: parent.id,
+                position: parent.children.length,
+                old_position: false,
+            });
+        },
+        '_disabled': () => node.data.drag === false
+      },
       'Copy Title': {
         'label': 'Copy Title',
         'action': () => {
