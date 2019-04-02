@@ -181,13 +181,20 @@ tree.jstree({
         'label': 'Move Bookmark',
         'action': () => {
             // TODO : allow selecting a folder.
-            const parent = tree.jstree('get_node', getRoot());
+            // const root = getRoot();
+            const root = 'menu________';
+            console.log('parentyp99='+JSON.stringify(root));
+            console.log('node899='+JSON.stringify(node));
+            const parent = tree.jstree('get_node', root);
+            // alert('fjjjj');
+            console.log('parentyoi='+JSON.stringify(parent));
             tree.trigger('move_node.jstree', {
                 node,
                 parent: parent.id,
                 position: parent.children.length,
                 old_position: false,
             });
+            location.reload();
         },
         '_disabled': () => node.data.drag === false
       },
