@@ -22,6 +22,7 @@ function _create_bookmarks_tree (_jquery_elem, _tree_options) {
 var tree = _jquery_elem;
 if (_tree_options.selector) {
     tree.css('display', 'block');
+    tree.modal();
 }
 tree.isFeed = url => url && (
   url.indexOf('rss') !== -1 ||
@@ -187,28 +188,12 @@ tree.jstree({
             // TODO : allow selecting a folder.
             // const root = getRoot();
             if (_tree_options.selector) {
-                tree.css('display', 'none');
-                throw node.id;
+              tree.css('display', 'none');
+              throw node.id;
             } else {
-                const el = $("#move_target_selector");
-let move_target_selector;
-                try {
-                     move_target_selector = _create_bookmarks_tree(el, {selector:true,});
-                } catch (parent_id) {
-                    // const root = 'menu________';
-                    console.log('parentyp99='+JSON.stringify(parent_id));
-                    console.log('node899='+JSON.stringify(parent_id));
-                    const parent = tree.jstree('get_node', parent_id);
-                    // alert('fjjjj');
-                    console.log('parentyoi='+JSON.stringify(parent));
-                    tree.trigger('move_node.jstree', {
-                        node,
-                        parent: parent.id,
-                        position: parent.children.length,
-                        old_position: false,
-                    });
-                    location.reload();
-                }
+              const el = $("#move_target_selector");
+              let move_target_selector;
+              move_target_selector = _create_bookmarks_tree(el, {selector:true, main_tree: tree, node: node, });
             }
         },
         '_disabled': () => node.data.drag === false
@@ -313,6 +298,23 @@ if (localStorage.getItem('searchfocus') !== 'true') {
 // open links on dblclick or Enter
 {
   const dblclick = (node, e = {shiftKey: false}) => {
+    if (_tree_options.selector) {
+      $.modal.close();
+      tree.css('display', 'none');
+      const parent_id = node.id;
+      console.log('parentyp99='+JSON.stringify(parent_id));
+      console.log('node899='+JSON.stringify(parent_id));
+      const parent = _tree_options.main_tree.jstree('get_node', parent_id);
+      // alert('fjjjj');
+      console.log('parentyoi='+JSON.stringify(parent));
+      _tree_options.main_tree.trigger('move_node.jstree', {
+        node: _tree_options.node,
+        parent: parent.id,
+        position: parent.children.length,
+        old_position: false,
+      });
+      location.reload();
+    }
     if (node && node.data && node.data.url && node.data.feed === false) {
       const url = node.data.url;
       chrome.tabs.query({
@@ -344,6 +346,10 @@ if (localStorage.getItem('searchfocus') !== 'true') {
     }
     const selected = tree.jstree('get_selected');
     const current = tree.jstree('get_node', e.target);
+    if (_tree_options.selector) {
+      dblclick(current);
+      return false;
+    }
     if (current && selected.indexOf(current.id) !== -1) {
       dblclick(current);
       return false;
