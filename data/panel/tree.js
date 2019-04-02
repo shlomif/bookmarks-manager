@@ -18,7 +18,8 @@ function getRoot() {
   return typeof InstallTrigger !== 'undefined' ? 'root________' : '0';
 }
 
-var tree = $('#tree');
+function _create_bookmarks_tree (_jquery_elem) {
+var tree = _jquery_elem;
 tree.isFeed = url => url && (
   url.indexOf('rss') !== -1 ||
   url.indexOf('feed') !== -1
@@ -412,3 +413,8 @@ window.addEventListener('tree:open-array', e => {
     });
   });
 });
+
+return tree;
+}
+
+var tree = _create_bookmarks_tree($('#tree'));
