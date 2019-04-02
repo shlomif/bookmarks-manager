@@ -160,6 +160,10 @@ input:disabled {
   position: relative;
   user-select: none;
 }
+#move_target_selector {
+  display: none;
+  user-select: none;
+}
 #results {
   height: 300px;
   max-height: 50vh;

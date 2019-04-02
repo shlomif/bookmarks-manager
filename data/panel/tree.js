@@ -18,8 +18,11 @@ function getRoot() {
   return typeof InstallTrigger !== 'undefined' ? 'root________' : '0';
 }
 
-function _create_bookmarks_tree (_jquery_elem) {
+function _create_bookmarks_tree (_jquery_elem, _tree_options) {
 var tree = _jquery_elem;
+if (_tree_options.selector) {
+    tree.css('display', 'block');
+}
 tree.isFeed = url => url && (
   url.indexOf('rss') !== -1 ||
   url.indexOf('feed') !== -1
@@ -183,19 +186,30 @@ tree.jstree({
         'action': () => {
             // TODO : allow selecting a folder.
             // const root = getRoot();
-            const root = 'menu________';
-            console.log('parentyp99='+JSON.stringify(root));
-            console.log('node899='+JSON.stringify(node));
-            const parent = tree.jstree('get_node', root);
-            // alert('fjjjj');
-            console.log('parentyoi='+JSON.stringify(parent));
-            tree.trigger('move_node.jstree', {
-                node,
-                parent: parent.id,
-                position: parent.children.length,
-                old_position: false,
-            });
-            location.reload();
+            if (_tree_options.selector) {
+                tree.css('display', 'none');
+                throw node.id;
+            } else {
+                const el = $("#move_target_selector");
+let move_target_selector;
+                try {
+                     move_target_selector = _create_bookmarks_tree(el, {selector:true,});
+                } catch (parent_id) {
+                    // const root = 'menu________';
+                    console.log('parentyp99='+JSON.stringify(parent_id));
+                    console.log('node899='+JSON.stringify(parent_id));
+                    const parent = tree.jstree('get_node', parent_id);
+                    // alert('fjjjj');
+                    console.log('parentyoi='+JSON.stringify(parent));
+                    tree.trigger('move_node.jstree', {
+                        node,
+                        parent: parent.id,
+                        position: parent.children.length,
+                        old_position: false,
+                    });
+                    location.reload();
+                }
+            }
         },
         '_disabled': () => node.data.drag === false
       },
@@ -417,4 +431,4 @@ window.addEventListener('tree:open-array', e => {
 return tree;
 }
 
-var tree = _create_bookmarks_tree($('#tree'));
+var tree = _create_bookmarks_tree($('#tree'), {selector:false});
