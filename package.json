@@ -1,0 +1,24 @@
+{
+  "name": "bookmarks-manager",
+  "version": "0.0.1",
+  "description": "",
+  "main": "common.js",
+  "dependencies": {
+    "jquery-modal": "^0.9.2",
+    "web-ext": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shlomif/bookmarks-manager.git"
+  },
+  "author": "",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/shlomif/bookmarks-manager/issues"
+  },
+  "homepage": "https://github.com/shlomif/bookmarks-manager#readme"
+}
