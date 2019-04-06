@@ -192,8 +192,7 @@ tree.jstree({
               throw node.id;
             } else {
               const el = $("#move_target_selector");
-              let move_target_selector;
-              move_target_selector = _create_bookmarks_tree(el, {selector:true, main_tree: tree, node: node, });
+              _create_bookmarks_tree(el, {selector:true, main_tree: tree, node: node, });
             }
         },
         '_disabled': () => node.data.drag === false
@@ -344,12 +343,12 @@ if (localStorage.getItem('searchfocus') !== 'true') {
     if (e.key !== 'Enter') {
       return true;
     }
-    const selected = tree.jstree('get_selected');
     const current = tree.jstree('get_node', e.target);
     if (_tree_options.selector) {
       dblclick(current);
       return false;
     }
+    const selected = tree.jstree('get_selected');
     if (current && selected.indexOf(current.id) !== -1) {
       dblclick(current);
       return false;
