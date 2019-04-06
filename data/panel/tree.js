@@ -151,7 +151,7 @@ tree.jstree({
       }
       else {
         chrome.bookmarks.getChildren(obj.id === '#' ? getRoot() : obj.id, nodes => {
-          cb(nodes.map(node => {
+          const mapped_nodes = nodes.map(node => {
             const feed = tree.isFeed(node.url);
             const children = !node.url || feed === true;
             const drag = node.parentId !== '0' && node.parentId !== 'root________';
@@ -175,7 +175,10 @@ tree.jstree({
                 hidden: node.url && node.url.startsWith('place:')
               }
             };
-          }));
+          }).filter((node)=>{return node.children || !_tree_options.selector;});
+          if (true) {
+            cb(mapped_nodes);
+          }
         });
       }
     }
