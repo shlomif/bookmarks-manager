@@ -20,9 +20,17 @@ function getRoot() {
 
 function _create_bookmarks_tree (_jquery_elem, _tree_options) {
 var tree = _jquery_elem;
+let _id_prefix = '';
 if (_tree_options.selector) {
     tree.css('display', 'block');
     tree.modal();
+    _id_prefix = "lambda_kopta_g78uklp98__rom__";
+}
+function _add_prefix(id) {
+  return _id_prefix + id;
+}
+function _remove_prefix(id) {
+  return id.substring(_id_prefix.length);
 }
 tree.isFeed = url => url && (
   url.indexOf('rss') !== -1 ||
@@ -150,14 +158,14 @@ tree.jstree({
           });
       }
       else {
-        chrome.bookmarks.getChildren(obj.id === '#' ? getRoot() : obj.id, nodes => {
+        chrome.bookmarks.getChildren(_remove_prefix(obj.id) === '#' ? getRoot() : _remove_prefix(obj.id), nodes => {
           const mapped_nodes = nodes.map(node => {
             const feed = tree.isFeed(node.url);
             const children = !node.url || feed === true;
             const drag = node.parentId !== '0' && node.parentId !== 'root________';
             return {
               text: tree.string.escape(node.title),
-              id: node.id,
+              id: _add_prefix(node.id),
               type: children ? (drag ? 'folder' : 'd_folder') : 'file',
               icon: children ? null : utils.favicon(node.url),
               children,
@@ -303,7 +311,7 @@ if (localStorage.getItem('searchfocus') !== 'true') {
     if (_tree_options.selector) {
       $.modal.close();
       tree.css('display', 'none');
-      const parent_id = node.id;
+      const parent_id = _remove_prefix(node.id);
       console.log('parentyp99='+JSON.stringify(parent_id));
       console.log('node899='+JSON.stringify(parent_id));
       const parent = _tree_options.main_tree.jstree('get_node', parent_id);
@@ -316,6 +324,7 @@ if (localStorage.getItem('searchfocus') !== 'true') {
         old_position: false,
       });
       location.reload();
+      return;
     }
     if (node && node.data && node.data.url && node.data.feed === false) {
       const url = node.data.url;
